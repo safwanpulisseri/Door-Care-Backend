@@ -6,14 +6,14 @@ import { bookingAdapter } from "./injections/bookingInjection";
 
 const router = express.Router();
 
-// roure for admin login
+// route for admin login
 router.post("/login", (req: Request, res: Response, next: NextFunction) =>
   adminAdapter.loginAdmin(req, res, next)
 );
 
 // ============= User related routes ================= //
 
-// roure for get user data
+// route for get user data
 router.get(
   "/getUsers",
   AuthMiddleware.protectAdmin,
@@ -21,7 +21,7 @@ router.get(
     adminAdapter.getUsers(req, res, next)
 );
 
-// roure for block user
+// route for block user
 router.patch(
   "/users/unblock-block",
   AuthMiddleware.protectAdmin,
@@ -31,7 +31,7 @@ router.patch(
 
 // ============= Service related routes ================= //
 
-// roure for create service
+// route for create service
 router.post(
   "/createService",
   AuthMiddleware.protectAdmin,
@@ -69,7 +69,7 @@ router.patch(
     adminAdapter.acceptOrRejectRequest(req, res, next)
 );
 
-// roure for block or un block worker
+// route for block or un block worker
 router.patch(
   "/worker/unblock-block",
   AuthMiddleware.protectAdmin,

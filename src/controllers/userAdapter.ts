@@ -51,6 +51,7 @@ export class UserAdapter {
       res.status(user.status).json({
         success: user.success,
         data: user.data,
+        token:user.token,
         message: user.message,
       });
     } catch (err) {

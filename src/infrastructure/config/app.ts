@@ -16,7 +16,7 @@ dotenv.config();
 export const app = express()
 app.use(
     cors({
-      origin: ["https://fixit-eta.vercel.app","http://localhost:5173"],
+      origin: ["http://localhost:55164"],
       methods: ["GET,PUT,PATCH,POST,DELETE"],
       credentials: true,
       optionsSuccessStatus: 204,
