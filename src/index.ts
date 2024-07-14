@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const start = () => {
 
     httpServer.listen(PORT, () => {
-    console.log(`server has been connected on http://localhost/${PORT}`);
+    console.log(`server has been connected on http://localhost:${PORT}`);
     connectDB(); 
   });
 };
