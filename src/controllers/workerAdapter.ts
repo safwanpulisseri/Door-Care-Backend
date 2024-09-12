@@ -44,6 +44,7 @@ export class WorkerAdapter {
         success: worker.success,
         data: worker.data,
         message: worker.message,
+        token: worker.token
       });
     } catch (err) {
       next(err);
@@ -73,7 +74,6 @@ export class WorkerAdapter {
   //route     POST api/worker/sendOtpToEmail
   //@access   Public
   async sendOtpToEmail(req: Req, res: Res, next: Next) {
-    console.log('hello worker');
     
     try {
       const user = await this.workerusecase.sendOtpToEmail(req.body);

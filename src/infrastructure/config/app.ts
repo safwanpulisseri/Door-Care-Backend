@@ -16,7 +16,7 @@ dotenv.config();
 export const app = express()
 app.use(
     cors({
-      origin: ["http://localhost:55164"],
+      origin: "*",
       methods: ["GET,PUT,PATCH,POST,DELETE"],
       credentials: true,
       optionsSuccessStatus: 204,

@@ -84,6 +84,12 @@ router.get(
   (req: Request, res: Response, next: NextFunction) =>
     bookingAdapter.getBookings(req, res, next)
 );
+router.post(
+  "/getBookings",
+  AuthMiddleware.protectAdmin,
+  (req: Request, res: Response, next: NextFunction) =>
+    bookingAdapter.getBookings(req, res, next)
+);
 
 // Route for user logout
 router.post("/logout", (req: Request, res: Response, next: NextFunction) =>

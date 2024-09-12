@@ -11,44 +11,43 @@ const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY as string,{
 
 class StripeService implements IStripe {
 
-    async  createPaymentIntent(
-      amount:number,
-      bookingId:string,
-      workerId:string
-    ):Promise<IResponse> {
-      
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'inr',
-              product_data: {
-                name: 'Service Payment is',
-              },
-              unit_amount: amount *100,
-            },
-            quantity: 1,
-          },
-        ],
-        mode: 'payment',
-        success_url: 'https://fixit-eta.vercel.app/profile/myBookings',
-        cancel_url: 'https://fixit-eta.vercel.app/profile/myBookings',
-        metadata: { 
+  async createPaymentIntent(
+    amount: number,
+    bookingId: string,
+    workerId: string
+  ): Promise<IResponse> {
+    try {
+      // Create a Payment Intent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount, 
+        currency: 'usd',
+        metadata: {
           bookingId,
-          amount,
-          workerId
+          workerId,
         },
       });
-        return {
-          success:true,
-          status:200,
-          data:session.id
-        }
+
+      console.log(paymentIntent, "paymentIntent");
+      
+
+      // Return the client secret to the frontend
+      return {
+        success: true,
+        status: 200,
+        data: paymentIntent.client_secret as string,  // Send client_secret to Flutter app
+      };
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      return {
+        success: false,
+        status: 500,
+      };
+    }
   }
 
   async paymentSuccess(req:Req){
-    const payload = req.body;     
+    const payload = req.body;   
+      
     const payloadString = JSON.stringify(payload, null, 2);
     const signature = req.headers["stripe-signature"];
 
@@ -56,7 +55,7 @@ class StripeService implements IStripe {
       return false;
     }
 
-    const endpointSecret= "whsec_ddc36f00110d9789bb7719fa5be16a2d6e13285facca913b211ac489aa65e1c8";
+    const endpointSecret= "whsec_7a0d179c830b9104c4fa49ed2c68253bdbb44ad8a5c2ec23f8ab55cc75a49dca";
     const header = stripe.webhooks.generateTestHeaderString({
       payload:payloadString,
       secret:endpointSecret

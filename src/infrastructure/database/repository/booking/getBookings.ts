@@ -15,6 +15,7 @@ export const getBokkings = async (
       const booking = await bookingModel.find({workerId,status}).sort({date:1})
       .populate('userId', 'name')
       .exec();
+      
       return {
           status: 200,
           success: true,
@@ -23,7 +24,8 @@ export const getBokkings = async (
     }
 
     if(service){
-      const booking = await bookingModel.find({service,status}).sort({createdAt:1})
+      const booking = await bookingModel.find({service,status}).sort({createdAt:1})      
+
       return {
           status: 200,
           success: true,
@@ -34,6 +36,7 @@ export const getBokkings = async (
     if(!workerId && !userId && !service){
       if(status === "all"){
         const booking = await bookingModel.find({status: { $ne: "cancelled" } }).sort({createdAt:-1});
+
         return {
             status: 200,
             success: true,
@@ -45,6 +48,7 @@ export const getBokkings = async (
       .populate('userId', 'name')
       .exec();
       
+      
       return {
           status: 200,
           success: true,
@@ -54,6 +58,7 @@ export const getBokkings = async (
 
     if(status === "all"){
       const booking = await bookingModel.find({ userId, status: { $ne: "cancelled" } }).sort({updatedAt:-1});
+
       return {
           status: 200,
           success: true,
@@ -62,12 +67,16 @@ export const getBokkings = async (
       
     }else{
         const booking = await bookingModel.find({userId, status}).sort({updatedAt:-1})
+
         return {
             status: 200,
             success: true,
             data: booking
           };
+
     }
+
+    
     
   } catch (err) {
     throw err;

@@ -25,6 +25,7 @@ export class UserAdapter {
       res.status(newUser.status).json({
         success: newUser.success,
         message: newUser.message,
+        token: newUser.token,
         user: newUser.data,
       });
     } catch (err) {
@@ -77,6 +78,7 @@ export class UserAdapter {
       res.status(user.status).json({
         success: user.success,
         data: user.data,
+        token: user.token,
         message: user.message,
       });
     } catch (err) {

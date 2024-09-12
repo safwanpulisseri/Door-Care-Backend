@@ -13,6 +13,9 @@ export const paymentConfirmation = async(
 )=>{
     try{
 
+        console.log("amount--------", amount);
+        
+
         await bookingRepository.payment(bookingId,transactionId)
         const adminProfit =Math.round(amount * 3 / 100)
         const workerAmount = amount - adminProfit

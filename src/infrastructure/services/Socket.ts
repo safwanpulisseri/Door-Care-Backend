@@ -15,7 +15,7 @@ export class SocketManager {
     this.httpServer = httpServer;
     this.io = new Server(httpServer, {
         cors: {
-          origin: ["https://fixit-eta.vercel.app", "http://localhost:5173"],
+          origin: ["https://fixit-eta.vercel.app", "http://localhost:3000"],
           methods: ["GET", "POST"],
           credentials: true,
           optionsSuccessStatus: 204,

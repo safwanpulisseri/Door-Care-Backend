@@ -13,7 +13,13 @@ export class AdminAdapter {
   //@access   Public
   async loginAdmin(req: Req, res: Res, next: Next) {
     try {
+      console.log("request object",req);
+      console.log("request header",req.header);
+      console.log("request body",req.body);
+      
       const admin = await this.adminusecase.loginAdmin(req.body);
+      console.log("Admin token -----------",admin.token);
+      
       admin &&
         res.cookie("adminjwt", admin.token, {
           httpOnly: true,
@@ -22,10 +28,12 @@ export class AdminAdapter {
           secure: true
         });
 
+
       res.status(admin.status).json({
         success: admin.success,
         data: admin.data,
         message: admin.message,
+        token: admin.token,
       });
     } catch (err) {
       next(err);

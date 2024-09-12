@@ -31,10 +31,13 @@ export class BookingAdapter {
   async getBookings(req: Req, res: Res, next: Next) {
   
     try {
-      const userId = req.query.userId as string;
-      const status = req.query.status as string;
-      const workerId = req.query.workerId as string;
-      const service = req.query.service as string;
+      console.log(req.body , "body of get.......")
+      const userId = req.body.userId as string;
+      const status = req.body.status as string;
+      const workerId = req.body.workerId as string;
+      const service = req.body.service as string;
+
+      console.log(userId,status,workerId,service);
       const bookings = await this.bookingusecase.getBookings({
         userId,
         status,
@@ -91,8 +94,8 @@ export class BookingAdapter {
   // @access  Private
   async payment(req: Req, res: Res, next: Next) {
     try {
-      console.log("entered");
-      const payment = await this.bookingusecase.createPayment(req.body);
+      const payment = await this.bookingusecase.createPayment(req.body);      
+
       res.status(payment.status).json({
         data: payment.data,
       });
@@ -105,18 +108,23 @@ export class BookingAdapter {
   // @route   POST /api/user/webhook
   // @access  Private
   async webhook(req: Req, res: Res, next: Next) {
-    try {
+    try {            
+
       // Parse the incoming webhook event
-      const event = req.body;
+      const event = req.body;      
+      
       // Check the type of event
       switch (event.type) {
-        case "checkout.session.completed":
+        case "payment_intent.succeeded":        
           // Handle charge succeeded event
           const session = event.data.object;
+
+          console.log("session ------------ ", session);
+          
           const metadata = session.metadata;
           const bookingId = metadata.bookingId;
           const workerId = metadata.workerId;
-          const amount = metadata.amount;
+          const amount = session.amount;
           const transactionId = event.data.object.payment_intent;
           await this.bookingusecase.paymentConfirmation({
             transactionId,

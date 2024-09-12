@@ -9,7 +9,8 @@ export const createPayment = async(
     bookingId:string,
     workerId:string
 ):Promise<IResponse>=>{
-    try{
+    try{            
+            
             const res = await stripe.createPaymentIntent(amount,bookingId,workerId)
             if(res){
                 return {

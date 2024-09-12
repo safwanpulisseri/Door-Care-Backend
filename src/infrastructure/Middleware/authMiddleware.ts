@@ -22,10 +22,21 @@ class AuthMiddleware {
 
   // user authentication
   static async protectUser(req: Request, res: Response, next: NextFunction): Promise<void> {
-    let token: string | undefined;
+    // let token: string | undefined;
 
     console.log('User protect');
-    token = req.cookies.userjwt;
+    // token = req.cookies.userjwt;
+    const token = req.header("Authorization")?.split(' ')[1]
+
+    console.log('req.header-----',req.header("Authorization"));
+  
+    console.log('step3--------------------------',token);
+ 
+    if (!token) {
+      res.status(401).json({ error: 'Unauthorized1' });
+    }
+
+
     const userRepository = new UserRepository(UserModel);
 
     if (token) {
@@ -56,7 +67,10 @@ class AuthMiddleware {
     let token: string | undefined;
 
     console.log('Admin protect');
-    token = req.cookies.adminjwt;
+    token = req.header("Authorization")?.split(' ')[1]
+
+    console.log("admin token",token);
+    
 
     const adminRepository = new AdminRepository(AdminModel);
 
@@ -87,7 +101,7 @@ class AuthMiddleware {
     let token: string | undefined;
 
     console.log('Worker protect');
-    token = req.cookies.workerjwt;
+    token = req.header("Authorization")?.split(' ')[1]
 
     const workerRepository = new WorkerRepository(WorkerModel)
 
