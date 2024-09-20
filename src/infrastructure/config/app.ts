@@ -37,6 +37,9 @@ app.use("/api/admin", adminRouter);
 app.use("/api/worker", workerRouter);
 app.use("/api/chat", chatRouter);
 
+app.get("/", (req, res) => {
+  res.send("Server ready...");
+})
 // error handler middleware
 app.use(errorHandler)
 
