@@ -55,7 +55,7 @@ class StripeService implements IStripe {
       return false;
     }
 
-    const endpointSecret= "whsec_7a0d179c830b9104c4fa49ed2c68253bdbb44ad8a5c2ec23f8ab55cc75a49dca";
+    const endpointSecret= "whsec_ZB8SitzH0mFA9ZA9MbnbHgB7j62CDxHp";
     const header = stripe.webhooks.generateTestHeaderString({
       payload:payloadString,
       secret:endpointSecret
